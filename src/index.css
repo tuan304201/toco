@@ -103,6 +103,16 @@ code {
     justify-content: space-between;
 }
 
+.css-19kzrtu {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.css-k008qs {
+    display: flex;
+    justify-content: space-between;
+}
+
 @media only screen and (max-width: 1200px) {
     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
         min-width: max-content !important;

@@ -1,6 +1,8 @@
 {
     "name": "toco",
     "version": "0.1.0",
+    "homepage": "https://tuan304201.github.io/toco",
+    "proxy": "https://tuan304201.github.io/toco",
     "private": true,
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -25,7 +27,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "predeploy": "react-scripts build",
+        "predeploy": "npm run build",
         "deploy": "gh-pages -d build"
     },
     "eslintConfig": {

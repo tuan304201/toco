@@ -81,6 +81,11 @@ code {
     padding: 0 !important;
 }
 
+.css-1q2h7u5 {
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
 .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected,
 .css-1aquho2-MuiTabs-indicator {
     color: #d3b673 !important;

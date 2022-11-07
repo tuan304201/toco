@@ -82,8 +82,8 @@ code {
 }
 
 .css-1q2h7u5 {
-    font-weight: 700;
-    text-transform: capitalize;
+    font-weight: 700 !important;
+    text-transform: capitalize !important;
 }
 
 .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected,
@@ -109,12 +109,12 @@ code {
 }
 
 .css-19kzrtu {
+    padding: 0 !important;
     display: flex;
     flex-wrap: wrap;
 }
 
 .css-k008qs {
-    display: flex;
     justify-content: space-between;
 }
 

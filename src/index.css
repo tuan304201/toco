@@ -84,6 +84,7 @@ code {
 .css-1q2h7u5 {
     font-weight: 700 !important;
     text-transform: capitalize !important;
+    min-width: 231px !important;
 }
 
 .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected,
@@ -123,6 +124,9 @@ code {
         min-width: max-content !important;
         text-align: center;
         font-weight: 700 !important;
+    }
+    .css-1q2h7u5 {
+        min-width: max-content !important;
     }
 }
 

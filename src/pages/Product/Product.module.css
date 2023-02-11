@@ -41,7 +41,7 @@
 .title-category {
     padding: 5px 10px;
     font-size: 20px;
-    font-family: "Baloo Da 2", cursive;
+    font-family: 'Baloo Da 2', cursive;
     color: #d8b979;
     border-bottom: 1px solid #efefef;
     text-transform: uppercase;
@@ -79,7 +79,7 @@
 }
 
 .title {
-    font-family: "Barlow", sans-serif;
+    font-family: 'Barlow', sans-serif;
     font-size: 16px;
     font-weight: 700;
     white-space: nowrap;
@@ -188,9 +188,9 @@
 }
 
 .bill-top {
-    padding: 15px;
+    padding: 12px;
     font-size: 20px;
-    font-family: "Baloo Da 2", cursive;
+    font-family: 'Baloo Da 2', cursive;
     color: #d8b979;
     border-bottom: 1px solid #efefef;
     text-transform: uppercase;

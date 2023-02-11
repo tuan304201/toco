@@ -1,23 +1,16 @@
-import { useState } from "react";
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import classNames from "classnames/bind";
-import styles from "./Product.module.css";
-import { HotProduct, MilkTea, FruitTea, Macchiato, Yogurt } from "./ProductData";
-import { AddCircle } from "@mui/icons-material";
+import { useState, useEffect } from 'react';
+import api from '../../api/getProducts';
+import * as React from 'react';
+import classNames from 'classnames/bind';
+import styles from './Product.module.css';
+import { AddCircle } from '@mui/icons-material';
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import LoadingProduct from '../../components/LoadingProduct/LoadingProduct';
 
 const cx = classNames.bind(styles);
 
 const HotOder = (props) => {
-    const [value, setValue] = useState("1");
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const [products, setProducts] = useState([]);
 
     const { bills, setBills } = props;
 
@@ -30,108 +23,136 @@ const HotOder = (props) => {
         }
     };
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await api.get('products');
+                setProducts(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    const hotProducts = products.filter((product) => product.categoryId === '1');
+    const milkTea = products.filter((product) => product.categoryId === '2');
+    const fruitTea = products.filter((product) => product.categoryId === '3');
+    const macchiato = products.filter((product) => product.categoryId === '4');
+    const yogurt = products.filter((product) => product.categoryId === '5');
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2500);
+    }, []);
+
     return (
-        <div className={cx("product")}>
-            <Box sx={{ width: "100%", typography: "body1" }}>
-                <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <TabList onChange={handleChange}>
-                            <Tab label="Món nổi bật" value="1" />
-                            <Tab label="Trà sữa" value="2" />
-                            <Tab label="Fresh Fruit Tea" value="3" />
-                            <Tab label="Macchiato Cream Cheese" value="4" />
-                            <Tab label="Sữa chua dẻo" value="5" />
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1">
-                        {HotProduct.map((item) => (
-                            <div className={cx("product-card")} key={item.id}>
+        <div className={cx('product')}>
+            <Accordion multiple activeIndex={[0]}>
+                <AccordionTab header="Món nổi bật">
+                    {loading ? (
+                        <LoadingProduct />
+                    ) : (
+                        hotProducts.map((item) => (
+                            <div className={cx('product-card')} key={item.id}>
                                 <img src={item.img} alt="" />
-                                <div className={cx("bot-card")}>
-                                    <div className={cx("title")}>{item.title}</div>
-                                    <div className={cx("price")}>
-                                        <div className={cx("new-price")}>
-                                            {item.price.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+                                <div className={cx('bot-card')}>
+                                    <div className={cx('title')}>{item.title}</div>
+                                    <div className={cx('price')}>
+                                        <div className={cx('new-price')}>
+                                            {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                         </div>
-                                        <div className={cx("old-price")}>{item.oldPrice}</div>
+                                        <div className={cx('old-price')}>{item.oldPrice}</div>
                                     </div>
                                 </div>
-                                <button className={cx("btn-buy")} onClick={() => handleAddItem(item)} value={item}>
-                                    <AddCircle style={{ fontSize: "xx-large" }} />
+                                <button className={cx('btn-buy')} onClick={() => handleAddItem(item)} value={item}>
+                                    <AddCircle style={{ fontSize: 'xx-large' }} />
                                 </button>
                             </div>
-                        ))}
-                    </TabPanel>
-                    <TabPanel value="2">
-                        {MilkTea.map((item) => (
-                            <div className={cx("product-card")} key={item.id}>
-                                <img src={item.img} alt="" />
-                                <div className={cx("bot-card")}>
-                                    <div className={cx("title")}>{item.title}</div>
-                                    <div className={cx("price")}>
-                                        <div className={cx("new-price")}>{item.price}</div>
-                                        <div className={cx("old-price")}>{item.oldPrice}</div>
+                        ))
+                    )}
+                </AccordionTab>
+                <AccordionTab header="Trà sữa">
+                    {milkTea.map((item) => (
+                        <div className={cx('product-card')} key={item.id}>
+                            <img src={item.img} alt="" />
+                            <div className={cx('bot-card')}>
+                                <div className={cx('title')}>{item.title}</div>
+                                <div className={cx('price')}>
+                                    <div className={cx('new-price')}>
+                                        {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
+                                    <div className={cx('old-price')}>{item.oldPrice}</div>
                                 </div>
-                                <button className={cx("btn-buy")} onClick={() => handleAddItem(item)} value={item}>
-                                    <AddCircle style={{ fontSize: "xx-large" }} />
-                                </button>
                             </div>
-                        ))}
-                    </TabPanel>
-                    <TabPanel value="3">
-                        {FruitTea.map((item) => (
-                            <div className={cx("product-card")} key={item.id}>
-                                <img src={item.img} alt="" />
-                                <div className={cx("bot-card")}>
-                                    <div className={cx("title")}>{item.title}</div>
-                                    <div className={cx("price")}>
-                                        <div className={cx("new-price")}>{item.price}</div>
-                                        <div className={cx("old-price")}>{item.oldPrice}</div>
+                            <button className={cx('btn-buy')} onClick={() => handleAddItem(item)} value={item}>
+                                <AddCircle style={{ fontSize: 'xx-large' }} />
+                            </button>
+                        </div>
+                    ))}
+                </AccordionTab>
+                <AccordionTab header="Fresh Fruit Tea">
+                    {fruitTea.map((item) => (
+                        <div className={cx('product-card')} key={item.id}>
+                            <img src={item.img} alt="" />
+                            <div className={cx('bot-card')}>
+                                <div className={cx('title')}>{item.title}</div>
+                                <div className={cx('price')}>
+                                    <div className={cx('new-price')}>
+                                        {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
+                                    <div className={cx('old-price')}>{item.oldPrice}</div>
                                 </div>
-                                <button className={cx("btn-buy")} onClick={() => handleAddItem(item)} value={item}>
-                                    <AddCircle style={{ fontSize: "xx-large" }} />
-                                </button>
                             </div>
-                        ))}
-                    </TabPanel>
-                    <TabPanel value="4">
-                        {Macchiato.map((item) => (
-                            <div className={cx("product-card")} key={item.id}>
-                                <img src={item.img} alt="" />
-                                <div className={cx("bot-card")}>
-                                    <div className={cx("title")}>{item.title}</div>
-                                    <div className={cx("price")}>
-                                        <div className={cx("new-price")}>{item.price}</div>
-                                        <div className={cx("old-price")}>{item.oldPrice}</div>
+                            <button className={cx('btn-buy')} onClick={() => handleAddItem(item)} value={item}>
+                                <AddCircle style={{ fontSize: 'xx-large' }} />
+                            </button>
+                        </div>
+                    ))}
+                </AccordionTab>
+                <AccordionTab header="Machiato Cream Cheese">
+                    {macchiato.map((item) => (
+                        <div className={cx('product-card')} key={item.id}>
+                            <img src={item.img} alt="" />
+                            <div className={cx('bot-card')}>
+                                <div className={cx('title')}>{item.title}</div>
+                                <div className={cx('price')}>
+                                    <div className={cx('new-price')}>
+                                        {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
+                                    <div className={cx('old-price')}>{item.oldPrice}</div>
                                 </div>
-                                <button className={cx("btn-buy")} onClick={() => handleAddItem(item)} value={item}>
-                                    <AddCircle style={{ fontSize: "xx-large" }} />
-                                </button>
                             </div>
-                        ))}
-                    </TabPanel>
-                    <TabPanel value="5">
-                        {Yogurt.map((item) => (
-                            <div className={cx("product-card")} key={item.id}>
-                                <img src={item.img} alt="" />
-                                <div className={cx("bot-card")}>
-                                    <div className={cx("title")}>{item.title}</div>
-                                    <div className={cx("price")}>
-                                        <div className={cx("new-price")}>{item.price}</div>
-                                        <div className={cx("old-price")}>{item.oldPrice}</div>
+                            <button className={cx('btn-buy')} onClick={() => handleAddItem(item)} value={item}>
+                                <AddCircle style={{ fontSize: 'xx-large' }} />
+                            </button>
+                        </div>
+                    ))}
+                </AccordionTab>
+                <AccordionTab header="Sữa Chua Dẻo">
+                    {yogurt.map((item) => (
+                        <div className={cx('product-card')} key={item.id}>
+                            <img src={item.img} alt="" />
+                            <div className={cx('bot-card')}>
+                                <div className={cx('title')}>{item.title}</div>
+                                <div className={cx('price')}>
+                                    <div className={cx('new-price')}>
+                                        {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
+                                    <div className={cx('old-price')}>{item.oldPrice}</div>
                                 </div>
-                                <button className={cx("btn-buy")} onClick={() => handleAddItem(item)} value={item}>
-                                    <AddCircle style={{ fontSize: "xx-large" }} />
-                                </button>
                             </div>
-                        ))}
-                    </TabPanel>
-                </TabContext>
-            </Box>
+                            <button className={cx('btn-buy')} onClick={() => handleAddItem(item)} value={item}>
+                                <AddCircle style={{ fontSize: 'xx-large' }} />
+                            </button>
+                        </div>
+                    ))}
+                </AccordionTab>
+            </Accordion>
         </div>
     );
 };
